@@ -2,7 +2,10 @@
 import axios, {AxiosError} from "axios";
 import { FormEvent } from "react";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 function register() {
+  const router = useRouter();
   const [error, setError] = useState("");
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // evita que se recargue la pagina
@@ -10,12 +13,30 @@ function register() {
     const data = new FormData(e.currentTarget);
     //enviar los datos al servidor donde es validado la informacion que le pasamos
     try {
+      
+      //enviar los datos al servidor donde es validado la informacion que le pasamos
       const resData = await axios.post("/api/auth/signup", {
+        //le pasamos los datos que queremos enviar al servidor obtenidos del formulario
         username : data.get("username"),
         email : data.get("email"),
         password : data.get("password"),
       });
       console.log(resData);
+
+      const res = await signIn('credentials',{
+        //le enviamos la informacion al autenticador de next-auth que hicimos en credentials
+        email : resData.data.email, //el valor se obtiene del servidor
+        // email :data.get("email"), //el valor se obtiene del formulario
+        password : data.get("password"),
+        redirect : false,
+        
+      });
+      console.log(res);
+      //si la respuesta fue coreecta
+      if(res?.ok){
+        //redireccionamos a la pagina de inicio
+        router.push("/dashbord");
+      }
     } catch (error) {
       console.log(error);
       if(error instanceof AxiosError){
