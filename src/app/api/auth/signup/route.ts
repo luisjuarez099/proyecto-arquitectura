@@ -55,13 +55,20 @@ export async function POST(request: Request) {
     console.log(username, email, password);
     console.log(userSave); //guardar el usuario en la base de datos
     return NextResponse.json({
-      message: "Guardamos el usuario exitosamente :)!",
-    });
+      _id: userSave._id,
+      username: userSave.username,
+      email: userSave.email,
+      message: "Usuario creado exitosamente",
+    },
+    {
+      status: 201,
+    }
+    );
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
         {
-          message: "Error en la base de datos al crear el usuario por favor intente de nuevo",
+          message: "Error al crear el usuario. Por favor intente de nuevo.",
         },
         {
           status: 400,

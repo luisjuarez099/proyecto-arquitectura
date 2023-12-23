@@ -31,5 +31,5 @@ const userSchema = new Schema({
 
 });
 // operaciones que se guarda por defecto el usuario
-const User = mongoose.models.user || mongoose.model('User', userSchema); //si ya existe el modelo lo usa, si no lo crea
+const User = models.User || model('User', userSchema); //si ya existe el modelo lo usa, si no lo crea
 export default User;
