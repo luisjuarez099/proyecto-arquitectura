@@ -37,7 +37,7 @@ const handler = NextAuth({
         //si la contraseña no es correcta
         if(!passFound) throw new Error("No hay credenciales validas de password");
         
-        return   userFound;
+        return userFound;
       }
     })
   ],
@@ -49,7 +49,7 @@ const handler = NextAuth({
         return baseUrl
       },
       async session({ session, user, token }) {
-        console.log(session, user, token);
+        // console.log(session, user, token);
         return session
       },
       async jwt({ token, user, account, profile }) {
@@ -58,8 +58,8 @@ const handler = NextAuth({
       }
   },
   pages: {
-    signIn: '/auth/signin',
-    signOut: '/auth/signout',
+    signIn: '',
+    signOut: '',
     error: '/auth/error', // Error code passed in query string as ?error=
     verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)

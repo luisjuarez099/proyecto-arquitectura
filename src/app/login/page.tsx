@@ -25,10 +25,10 @@ function login() {
       return setError(res.error);
     }
     console.log(res);
-    //si la respuesta fue coreecta
+   // si la respuesta fue coreecta
     if (res?.ok) {
       //redireccionamos a la pagina de inicio
-      return router.push("/dashbord");
+      return router.push("/dashboard/profile");
     }
   };
 

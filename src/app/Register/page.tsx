@@ -35,7 +35,7 @@ function register() {
       //si la respuesta fue coreecta
       if(res?.ok){
         //redireccionamos a la pagina de inicio
-        router.push("/dashbord");
+        router.push("/dashboard/profile");
       }
     } catch (error) {
       console.log(error);
