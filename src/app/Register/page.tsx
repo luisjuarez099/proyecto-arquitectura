@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 function register() {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -34,7 +35,7 @@ function register() {
       console.log(res);
       //si la respuesta fue coreecta
       if(res?.ok){
-        //redireccionamos a la pagina de inicio
+        //redireccionamos a la pagina de inicio una vez ya registrado
         router.push("/dashboard/profile");
       }
     } catch (error) {

@@ -4,10 +4,8 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 function login() {
-
   const router = useRouter();
   const [error, setError] = useState("");
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // evita que se recargue la pagina
@@ -21,15 +19,9 @@ function login() {
       redirect: false,
     });
 
-    if (res?.error) {
-      return setError(res.error);
-    }
-    console.log(res);
-   // si la respuesta fue coreecta
-    if (res?.ok) {
-      //redireccionamos a la pagina de inicio
-      return router.push("/dashboard/profile");
-    }
+    if (res?.error) setError(res.error as string);
+
+    if (res?.ok) return router.push("/dashboard/profile");
   };
 
   return (
@@ -94,6 +86,12 @@ function login() {
               Ingresar
             </button>
           </div>
+          {/* boton para enviar al usuario que se registre  */}
+          <a href="/Register">
+            <p className="text-blue-500 flex justify-center p-3">
+              Crear cuenta
+            </p>
+          </a>
         </form>
       </div>
     </div>

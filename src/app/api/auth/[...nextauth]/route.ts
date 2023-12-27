@@ -1,7 +1,7 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import  User  from "@/models/user"; //importamos el modelo de usuario
+import User from "@/models/user"; //importamos el modelo de usuario
 const handler = NextAuth({
   //como vamos a quere que se autentique el usuario/
   providers: [
@@ -13,11 +13,14 @@ const handler = NextAuth({
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
 
-
       //que esperamos recibir del usuario
       credentials: {
-        email: { label: "email", type: "email", placeholder: "jjonson@example.com" },
-        password: { label: "Password", type: "password" }
+        email: {
+          label: "email",
+          type: "email",
+          placeholder: "jjonson@example.com",
+        },
+        password: { label: "Password", type: "password" },
       },
 
       /**
@@ -27,44 +30,43 @@ const handler = NextAuth({
       async authorize(credentials, req) {
         // console.log(credentials);
         //verificar si el usuario existe en el email
-        const userFound = await User.findOne({ email: credentials?.email}).select("+password");;
+        const userFound = await User.findOne({
+          email: credentials?.email,
+        }).select("+password");
         //si no existe
-        if(!userFound) throw new Error("No hay credenciales validas de email");
+        if (!userFound) throw new Error("Error en el email");
         console.log(userFound);
 
         //verificamos si la contraseña es correcta
-        const passFound = await bcrypt.compare(credentials!.password, userFound.password);
+        const passFound = await bcrypt.compare(
+          credentials!.password,
+          userFound.password
+        );
         //si la contraseña no es correcta
-        if(!passFound) throw new Error("No hay credenciales validas de password");
-        
+        if (!passFound)
+          throw new Error("Error en password");
+
         return userFound;
-      }
-    })
+      },
+    }),
   ],
-  callbacks:{
-    async signIn({ user, account, profile, email, credentials }) {
-        return true
-      },
-      async redirect({ url, baseUrl }) {
-        return baseUrl
-      },
-      async session({ session, user, token }) {
-        // console.log(session, user, token);
-        return session
-      },
-      async jwt({ token, user, account, profile }) {
-        if(user) token.user = user; //save user token to the jwt token
-        return token //add token to the jwt
-      }
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user;
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = token.user as any;
+      return session;
+    },
   },
   pages: {
-    signIn: '',
-    signOut: '',
-    error: '/auth/error', // Error code passed in query string as ?error=
-    verifyRequest: '/auth/verify-request', // (used for check email message)
-    newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-  }
-  
+    signIn: "/login", //aqui se va a redireccionar cuando este logueado
+    signOut: "/login", ///aqui se va a redireccionar cuando no este logueado
+  },
 });
 
 export { handler as GET, handler as POST };
