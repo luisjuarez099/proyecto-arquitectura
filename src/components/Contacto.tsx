@@ -9,7 +9,6 @@ import { set } from "mongoose";
 
 function Contacto() {
   const [errors, setErrors] = useState(""); // Estado para los errores
-  const [good, setGood] = useState(""); // Estado para los errores
 
   const router = useRouter(); // Hook de Next.js para redireccionar
   const [Nombre, setNombre] = useState("");
@@ -28,15 +27,20 @@ function Contacto() {
           Telefono: Telefono,
           Mensaje: Mensaje,
         });
-        setErrors(resData.data.message);
-        setErrors(""); 
+        if(resData.request.status == 200){
+            setErrors(resData.data.message);
+            /// Limpiamos los campos
+            setNombre("");
+            setCorreo("");
+            setTelefono("");
+            setMensaje("");
+            router.refresh(); // Refrescamos la pagina
+        }
     } catch (error) {
       if (error instanceof AxiosError) {
         setErrors(error.response?.data.message);
       }
     }
-
-    router.refresh();
     //router.push("/"); // Redireccionamos a la pagina de inicio
   };
   return (
@@ -83,7 +87,7 @@ function Contacto() {
             <div className="flex-1 mt-12 sm:max-w-lg lg:max-w-md">
               {errors && (
                 <div
-                  className="bg-amber-100 border border-amber-200 text-amber-700 px-4 py-3 rounded relative"
+                  className="bg-amber-100 border border-amber-200 text-amber-800 px-4 py-3 rounded relative"
                   role="alert"
                 >
                   {errors}

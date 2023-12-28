@@ -36,7 +36,7 @@ function register() {
       //si la respuesta fue coreecta
       if(res?.ok){
         //redireccionamos a la pagina de inicio una vez ya registrado
-        router.push("/dashboard/profile");
+        router.push("/");
       }
     } catch (error) {
       console.log(error);

@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Amortiguadores-mx",
+  title: "Ninja Shocks",
   description: "Pagina para consulta de amortiguadores KYB de Mexico",
 };
 

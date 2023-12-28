@@ -27,7 +27,7 @@ export async function POST(request: Request) {
         }
       );
     }
-    if (Nombre.length < 5 || Nombre.length > 25) {
+    if (Nombre.length < 3 || Nombre.length > 25) {
       return NextResponse.json(
         {
           message: "El nombre debe tener entre 5 y 25 caracteres",
@@ -51,8 +51,8 @@ export async function POST(request: Request) {
     //crear el contacto
     await contacto.create({ Nombre, Correo, Telefono, Mensaje });
     return NextResponse.json(
-      { message: "Mensaje enviado, ya somos amigos :) " },
-      { status: 201 }
+      { message: "Mensaje enviado con exito. " },
+      { status: 200 }
     );
   } catch (error) {
     if (error instanceof Error) {

@@ -21,7 +21,7 @@ function login() {
 
     if (res?.error) setError(res.error as string);
 
-    if (res?.ok) return router.push("/");
+    if (res?.ok) return router.push("/"); //redireccionamos a la pagina de inicio una vez ya logeado
   };
 
   return (
