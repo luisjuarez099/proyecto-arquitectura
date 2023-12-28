@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./Providers";
 import Navbar from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "ETCARS",
+  title: "Amortiguadores-mx",
   description: "Pagina para consulta de amortiguadores KYB de Mexico",
 };
 
@@ -19,6 +20,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

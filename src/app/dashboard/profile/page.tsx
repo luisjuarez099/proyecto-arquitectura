@@ -7,7 +7,16 @@ function Profile() {
   return (
     <div>
       <h1>Profile</h1>
-      <p>Session: {JSON.stringify(session)}</p>
+      <pre className="p-4">
+        {JSON.stringify(
+          {
+            session,
+            status,
+          },
+          null,
+          2
+        )}
+      </pre>
       <p>Status: {status}</p>
       <button
         onClick={() => signOut()}

@@ -16,12 +16,12 @@ function login() {
       //le enviamos la informacion al autenticador de next-auth que hicimos en credentials
       email: data.get("email"), //el valor se obtiene del formulario
       password: data.get("password"),
-      redirect: false,
+      redirect: false, //
     });
 
     if (res?.error) setError(res.error as string);
 
-    if (res?.ok) return router.push("/dashboard/profile");
+    if (res?.ok) return router.push("/");
   };
 
   return (
@@ -89,7 +89,7 @@ function login() {
           {/* boton para enviar al usuario que se registre  */}
           <a href="/Register">
             <p className="text-blue-500 flex justify-center p-3">
-              Crear cuenta
+              Nueva cuenta
             </p>
           </a>
         </form>

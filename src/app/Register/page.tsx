@@ -22,7 +22,7 @@ function register() {
         email : data.get("email"),
         password : data.get("password"),
       });
-      console.log(resData);
+      // console.log(resData);
 
       const res = await signIn('credentials',{
         //le enviamos la informacion al autenticador de next-auth que hicimos en credentials
@@ -32,7 +32,7 @@ function register() {
         redirect : false,
         
       });
-      console.log(res);
+      // console.log(res);
       //si la respuesta fue coreecta
       if(res?.ok){
         //redireccionamos a la pagina de inicio una vez ya registrado
@@ -59,7 +59,7 @@ function register() {
           {/* Username *************************************** */}
           <div>
             <label className="block text-sm font-medium leading-6 text-gray-900">
-              User name
+              Nombre de Usuario
             </label>
             <div className="mt-2">
               <input
@@ -76,7 +76,7 @@ function register() {
               typeof="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email address
+              Email
             </label>
             <div className="mt-2">
               <input
