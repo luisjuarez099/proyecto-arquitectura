@@ -3,6 +3,7 @@ import "./globals.css";
 import Providers from "./Providers";
 import Navbar from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Ninja Shocks",
@@ -16,13 +17,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <Providers>
+      <Providers>
+        <body>
           <Navbar />
           {children}
           <Footer />
-        </Providers>
-      </body>
+        </body>
+      </Providers>
     </html>
   );
 }

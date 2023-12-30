@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-function Navbar() {
-  const { data: session }: any = useSession(); //toma el valor de la sesion
-  // console.log(session);
+export default function Navbar() {
+  
+  const {data: session} = useSession(); //toma el valor de la sesion
+ 
+ 
   return (
     <nav className=" p-4">
       <div className="container mx-auto flex justify-between">
@@ -18,9 +19,7 @@ function Navbar() {
               <li className="px-3 py-1">
                 <Link href="/about">About</Link>
               </li>
-              <li className="px-3 py-1">
-                <Link href="/Contacto">Contacto</Link>
-              </li>
+              
               <li className="px-3 py-1">
                 <Link href="/dashboard/profile">Perfil</Link>
               </li>
@@ -51,4 +50,3 @@ function Navbar() {
   );
 }
 
-export default Navbar;
