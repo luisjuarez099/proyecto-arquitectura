@@ -3,10 +3,14 @@ import { FormEvent } from "react";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { set } from "mongoose";
 function login() {
   const router = useRouter();
   const [error, setError] = useState("");
-
+  const [show, setSHow] = useState(false);
+  const verPasswrd=()=>{
+    setSHow(!show); //cambiamos el estado de show
+  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // evita que se recargue la pagina
     //extraer los datos del formulario actual
@@ -73,10 +77,20 @@ function login() {
             <div className="mt-2">
               <input
                 name="password"
-                type="password"
+                type={show ? "text" : "password"}
                 required
                 className=" pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
+            </div>
+            <div className="">
+              <label className="text-sm mr-2 font-medium leading-6 text-gray-900">Mostrar contraseña</label>
+              <input 
+              type="checkbox"
+              name="chekbox" 
+              id="chekbox" 
+              checked={show} //si esta activo el checkbox se muestra el password
+              onChange={verPasswrd}  //cambia el estado de show para mostrar o no el password
+              className="p-2"/>
             </div>
           </div>
 

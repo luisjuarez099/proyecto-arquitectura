@@ -3,39 +3,50 @@ import Image from "next/image";
 import axios, { AxiosError } from "axios";
 import emailI from "../../public/mail.png";
 import phoneI from "../../public/phone.png";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
 
 function Contacto() {
   const [errors, setErrors] = useState(""); // Estado para los errores
-
+  const [cont, setCont] = useState<any>(); // Estado para Telefono
+  const [contM, setContM] = useState<any>(); // Estado para Mensaje
+  const [contN, setContN] = useState<any>(); // Estado para Nombre
   const router = useRouter(); // Hook de Next.js para redireccionar
   const [Nombre, setNombre] = useState("");
   const [Correo, setCorreo] = useState("");
   const [Telefono, setTelefono] = useState("");
   const [Mensaje, setMensaje] = useState("");
 
+  //creamos este estado para que se actualice cantidad de caracteres
+  useEffect(() => {
+    let valNum = Telefono.length;
+    let valM = Mensaje.length;
+    let valN = Nombre.length;
+    setCont(valNum);
+    setContM(valM);
+    setContN(valN);
+  }, [Telefono.length, Mensaje.length, Nombre.length]);
+
   const handleSubmit = async (event: any) => {
     try {
       event.preventDefault(); // Evita que se recargue la pagina
       console.log(Nombre + " " + Correo + " " + Telefono + " " + Mensaje);
-      const resData = await axios
-        .post("/api/contacto", {
-          Nombre: Nombre,
-          Correo: Correo,
-          Telefono: Telefono,
-          Mensaje: Mensaje,
-        });
-        if(resData.request.status == 200){
-            setErrors(resData.data.message);
-            /// Limpiamos los campos
-            setNombre("");
-            setCorreo("");
-            setTelefono("");
-            setMensaje("");
-            router.refresh(); // Refrescamos la pagina
-        }
+      const resData = await axios.post("/api/contacto", {
+        Nombre: Nombre,
+        Correo: Correo,
+        Telefono: Telefono,
+        Mensaje: Mensaje,
+      });
+      if (resData.request.status == 200) {
+        setErrors(resData.data.message);
+        /// Limpiamos los campos
+        setNombre("");
+        setCorreo("");
+        setTelefono("");
+        setMensaje("");
+        router.refresh(); // Refrescamos la pagina
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         setErrors(error.response?.data.message);
@@ -105,9 +116,12 @@ function Contacto() {
                     value={Nombre.toLowerCase()} // Asigna el valor de la variable fullName
                     type="text"
                     name="Nombre"
+                    maxLength={25}
+                    placeholder="Nombre"
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
+                  <p className="text-gray-500 text-xs">{contN}/25 caracteres</p>
                 </div>
                 {/* Email */}
                 <div>
@@ -120,24 +134,26 @@ function Contacto() {
                     value={Correo.toLowerCase()}
                     type="email"
                     name="Correo"
+                    placeholder="example@gmail.com"
                     required
                   />
                 </div>
                 {/* Telefono */}
                 <div>
                   <label htmlFor="Telefono" className="font-medium">
-                    Numero de Telefono
+                    Telefono
                   </label>
                   <input
                     onChange={(e) => setTelefono(e.target.value)}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                     value={Telefono}
                     type="tel"
-                    min="13"
+                    maxLength={10}
                     name="Telefono"
-                    placeholder="000-000-000-0"
+                    placeholder="123-456-7890"
                     required
                   />
+                  <p className="text-gray-500 text-xs">{cont}/10 caracteres</p>
                 </div>
                 {/* Motivo del Mensaje */}
                 <div>
@@ -148,10 +164,12 @@ function Contacto() {
                     onChange={(e) => setMensaje(e.target.value)}
                     className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                     value={Mensaje}
-                    maxLength={50}
+                    maxLength={100}
+                    placeholder="Escribe tu mensaje aqui..."
                     name="Mensaje"
                     required
                   ></textarea>
+                  <p className="text-gray-500 text-xs">{contM}/100 caracteres</p>
                 </div>
                 {/* Boton de enviar */}
                 <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">

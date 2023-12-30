@@ -8,6 +8,10 @@ import Link from "next/link";
 function register() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [show, setSHow] = useState(false);
+  const verPasswrd=()=>{
+    setSHow(!show); //cambiamos el estado de show
+  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // evita que se recargue la pagina
     //extraer los datos del formulario actual
@@ -101,10 +105,20 @@ function register() {
             <div className="mt-2">
               <input
                 name="password"
-                type="password"
+                type={show ? "text" : "password"}
                 required
                 className=" pl-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
+              <div >
+                <label className="text-sm mr-2 font-medium leading-6 text-gray-900">Mostrar contraseña</label>
+                <input 
+                type="checkbox"
+                name="chekbox" 
+                checked={show}
+                onChange={verPasswrd}
+                className="mt-2"
+                />
+              </div>
             </div>
           </div>
 
