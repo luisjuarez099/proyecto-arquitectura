@@ -27,7 +27,7 @@ export async function POST(request: Request) {
         }
       );
     }
-    if (Nombre.length < 3 || Nombre.length > 25) {
+    if (Nombre.length <= 5 || Nombre.length >= 25) {
       return NextResponse.json(
         {
           message: "El nombre debe tener entre 5 y 25 caracteres",
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     if (Mensaje.length < 5 || Mensaje.length > 500) {
       return NextResponse.json(
         {
-          message: "El mensaje debe tener entre 5 y 500 caracteres",
+          message: "El mensaje debe tener entre 5 y 100 caracteres",
         },
         {
           status: 409, //return a status code
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     if (error instanceof Error) {
       return NextResponse.json(
         {
-          message: "Mensaje no enviado.",
+          message: "Mensaje no enviado. Verifique su informacion este completa",
         },
         {
           status: 400,

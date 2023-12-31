@@ -6,8 +6,8 @@ const footerNavs = [
         name: 'About'
     },
     {
-        href: '/',
-        name: 'Blog'
+        href: '/Amortiguadores',
+        name: 'Amortiguadores'
     },
     {
         href: '/Contacto',

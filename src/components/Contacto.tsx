@@ -113,11 +113,12 @@ function Contacto() {
                   </label>
                   <input
                     onChange={(e) => setNombre(e.target.value)} // Actualiza el estado de la variable fullName
-                    value={Nombre.toLowerCase()} // Asigna el valor de la variable fullName
+                    value={Nombre} // Asigna el valor de la variable fullName
                     type="text"
                     name="Nombre"
+                    pattern="^[^0-9]*$"
                     maxLength={25}
-                    placeholder="Nombre"
+                    placeholder="Nombre(s) o Apellido(s)"
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
                   />
@@ -149,8 +150,9 @@ function Contacto() {
                     value={Telefono}
                     type="tel"
                     maxLength={10}
+                    pattern="^[0-9]*$"
                     name="Telefono"
-                    placeholder="123-456-7890"
+                    placeholder="0123456789"
                     required
                   />
                   <p className="text-gray-500 text-xs">{cont}/10 caracteres</p>

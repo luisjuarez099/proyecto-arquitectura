@@ -17,7 +17,7 @@ export default function Navbar() {
           {session ? (
             <>
               <li className="px-3 py-1">
-                <Link href="/about">About</Link>
+                <Link href="/Amortiguadores">Amortiguadores</Link>
               </li>
               
               <li className="px-3 py-1">
@@ -34,10 +34,13 @@ export default function Navbar() {
           ) : (
             <>
               <li className="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
-                <Link href="/login">Login</Link>
+                <Link href="/Amortiguadores">Amortiguador</Link>
               </li>
               <li className="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
                 <Link href="/Contacto">Contacto</Link>
+              </li>
+              <li className="flex-1 gap-x-6 items-center justify-end mt-6 space-y-6 md:flex md:space-y-0 md:mt-0">
+                <Link href="/login">Login</Link>
               </li>
               <li className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800  rounded-full md:inline-flex">
                 <Link href="/Register">Registrar</Link>
