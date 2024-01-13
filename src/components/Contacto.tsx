@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { set } from "mongoose";
 
 function Contacto() {
+  
+  
   const [errors, setErrors] = useState(""); // Estado para los errores
   const [cont, setCont] = useState<any>(); // Estado para Telefono
   const [contM, setContM] = useState<any>(); // Estado para Mensaje
@@ -26,7 +28,8 @@ function Contacto() {
     setCont(valNum);
     setContM(valM);
     setContN(valN);
-  }, [Telefono.length, Mensaje.length, Nombre.length]);
+    localStorage.setItem("Telefono", Telefono);
+  }, [Telefono, Mensaje, Nombre]);
 
   const handleSubmit = async (event: any) => {
     try {
@@ -41,11 +44,11 @@ function Contacto() {
       if (resData.request.status == 200) {
         setErrors(resData.data.message);
         /// Limpiamos los campos
-        setNombre("");
-        setCorreo("");
-        setTelefono("");
-        setMensaje("");
-        router.refresh(); // Refrescamos la pagina
+        // setNombre("");
+        // setCorreo("");
+        // setTelefono("");
+        // setMensaje("");
+        // router.refresh(); // Refrescamos la pagina
       }
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -132,7 +135,7 @@ function Contacto() {
                   <input
                     onChange={(e) => setCorreo(e.target.value)}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-                    value={Correo.toLowerCase()}
+                    value={Correo}
                     type="email"
                     name="Correo"
                     placeholder="example@gmail.com"

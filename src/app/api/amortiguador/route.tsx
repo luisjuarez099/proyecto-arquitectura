@@ -9,7 +9,7 @@ export async function GET() {
       .collection("shocks") // Seleccionamos la colección de la base de datos
       .find({})
       .sort({ metacritic: -1 })
-      .limit(15)
+      .limit(20)
       .toArray();
     return NextResponse.json({ items }, { status: 200 });
   } catch (e) {

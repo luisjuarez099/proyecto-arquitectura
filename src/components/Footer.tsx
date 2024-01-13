@@ -15,7 +15,7 @@ const footerNavs = [
     },
     {
         href: '/',
-        name: 'Team'
+        name: 'Colaboradores'
     },
     {
         href: '/',

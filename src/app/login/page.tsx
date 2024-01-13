@@ -8,9 +8,9 @@ function login() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [show, setSHow] = useState(false);
-  const verPasswrd=()=>{
+  const verPasswrd = () => {
     setSHow(!show); //cambiamos el estado de show
-  }
+  };
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // evita que se recargue la pagina
     //extraer los datos del formulario actual
@@ -83,29 +83,37 @@ function login() {
               />
             </div>
             <div className="">
-              <label className="text-sm mr-2 font-medium leading-6 text-gray-900">Mostrar contraseña</label>
-              <input 
-              type="checkbox"
-              name="chekbox" 
-              id="chekbox" 
-              checked={show} //si esta activo el checkbox se muestra el password
-              onChange={verPasswrd}  //cambia el estado de show para mostrar o no el password
-              className="p-2"/>
+              <label className="text-sm mr-2 font-medium leading-6 text-gray-900">
+                Mostrar contraseña
+              </label>
+              <input
+                type="checkbox"
+                name="chekbox"
+                id="chekbox"
+                checked={show} //si esta activo el checkbox se muestra el password
+                onChange={verPasswrd} //cambia el estado de show para mostrar o no el password
+                className="p-2"
+              />
             </div>
           </div>
 
           {/* Boton de envio de formulario **************************** */}
-          <div>
-            <button className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+       
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+              
+              <a className="underline" href="/Register">
+             Crear cuenta
+              </a>
+            </p>
+
+            <button
+              type="submit"
+              className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+            >
               Ingresar
             </button>
           </div>
-          {/* boton para enviar al usuario que se registre  */}
-          <a href="/Register">
-            <p className="text-blue-500 flex justify-center p-3">
-              Nueva cuenta
-            </p>
-          </a>
         </form>
       </div>
     </div>
