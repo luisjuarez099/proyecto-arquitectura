@@ -8,8 +8,8 @@ export async function GET() {
     const items = await db
       .collection("shocks") // Seleccionamos la colección de la base de datos
       .find({})
-      .sort({ metacritic: -1 })
-      .limit(20)
+      // .sort({ metacritic: -1 })
+      .limit(150)
       .toArray();
     return NextResponse.json({ items }, { status: 200 });
   } catch (e) {
