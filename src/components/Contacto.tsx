@@ -177,7 +177,17 @@ function Contacto() {
                   <p className="text-gray-500 text-xs">{contM}/100 caracteres</p>
                 </div>
                 {/* Boton de enviar */}
-                <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
+                <button
+                 className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                onClick={async () => {
+                  const res = await fetch("/api/send", {
+                    method:"POST"
+                  })
+                 const data  = await res.json()
+                  console.log(data)
+                }}
+                 >
+
                   Enviar
                 </button>
               </form>

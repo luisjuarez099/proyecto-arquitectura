@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import contacto from "@/models/contacto"; //importar el modelo de contacto
-
+import { Resend } from 'resend';
+import { EmailTemplate } from "@/components/email-template";
 //metodo get para obtener todos los contactos
 export async function GET() {
   try {
@@ -16,6 +17,7 @@ export async function GET() {
 //metodo post para crear un contacto
 export async function POST(request: Request) {
   try {
+    const resend = new Resend('re_8Wx5t6xC_7etkGzjEK4Qdp3un78dP4Uys');
     const { Nombre, Correo, Telefono, Mensaje } = await request.json(); //obtener  la peticion en formato json para poder usarlo
     if (Telefono.length !== 10) {
       return NextResponse.json(
