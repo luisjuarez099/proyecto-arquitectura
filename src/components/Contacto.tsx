@@ -3,13 +3,13 @@ import Image from "next/image";
 import axios, { AxiosError } from "axios";
 import emailI from "../../public/mail.png";
 import phoneI from "../../public/phone.png";
+import { Resend } from 'resend';
+import {EmailTemplate} from "@/components/email-template";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
-
+import { env } from "process";
 function Contacto() {
-  
-  
   const [errors, setErrors] = useState(""); // Estado para los errores
   const [cont, setCont] = useState<any>(); // Estado para Telefono
   const [contM, setContM] = useState<any>(); // Estado para Mensaje
@@ -30,8 +30,8 @@ function Contacto() {
     setContN(valN);
     localStorage.setItem("Telefono", Telefono);
   }, [Telefono, Mensaje, Nombre]);
-
-  const handleSubmit = async (event: any) => {
+  
+const handleSubmit = async (event: any) => {
     try {
       event.preventDefault(); // Evita que se recargue la pagina
       console.log(Nombre + " " + Correo + " " + Telefono + " " + Mensaje);
@@ -179,13 +179,14 @@ function Contacto() {
                 {/* Boton de enviar */}
                 <button
                  className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                onClick={async () => {
-                  const res = await fetch("/api/send", {
-                    method:"POST"
-                  })
-                 const data  = await res.json()
-                  console.log(data)
-                }}
+                  onClick={async () => {
+                   const res  =  await fetch('/api/send/', {
+                    method: "POST",
+
+                   })
+                    const data = await res.json()
+                    console.log(data)
+                  }}
                  >
 
                   Enviar

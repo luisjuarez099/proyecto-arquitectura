@@ -6,19 +6,19 @@ interface EmailTemplateProps {
 
 export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   Nombre,
- 
 }) => (
   <div>
-    <h1>Welcome, {Nombre}!</h1>
+    <h1>Hola, {Nombre}!</h1>
     <p>
-      Asunto: ¡Bienvenido a la familia de Ninja shocks! Estimado/a,
-        En nombre de todo el equipo de Ninja Shocks, te
-      damos la bienvenida a nuestra familia. Estamos muy contentos de que te
-      hayas unido a nosotros y esperamos que disfrutes de tu trabajo. Sabemos
-      que los shocks son un producto importante para nuestros clientes, y
-      estamos seguros de que tú serás una gran representante de nuestra empresa.
-      Te capacitaremos para que conozcas a fondo nuestros productos y cómo
-      venderlos de manera efectiva.
+      Le escribo para agradecerle por su comentario sobre nuestros productos o
+      servicios. Apreciamos su tiempo y esfuerzo al compartir sus pensamientos
+      con nosotros. Su comentario es muy valioso para nosotros, ya que nos ayuda
+      a mejorar nuestros productos y servicios. Lo leeremos detenidamente y
+      tomaremos sus comentarios en consideración. También nos complace saber que
+      está interesado en [producto o servicio]. Estamos comprometidos a brindar
+      a nuestros clientes la mejor experiencia posible, y nos esforzaremos por
+      superar sus expectativas. Gracias nuevamente por su comentario. Valoramos
+      su negocio y nos encantaría seguir trabajando con usted en el futuro.
     </p>
   </div>
 );
