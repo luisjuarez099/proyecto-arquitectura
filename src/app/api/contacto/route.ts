@@ -17,7 +17,6 @@ export async function GET() {
 //metodo post para crear un contacto
 export async function POST(request: Request) {
   try {
-    const resend = new Resend('re_8Wx5t6xC_7etkGzjEK4Qdp3un78dP4Uys');
     const { Nombre, Correo, Telefono, Mensaje } = await request.json(); //obtener  la peticion en formato json para poder usarlo
     if (Telefono.length !== 10) {
       return NextResponse.json(
@@ -29,7 +28,7 @@ export async function POST(request: Request) {
         }
       );
     }
-    if (Nombre.length <= 5 || Nombre.length >= 25) {
+    if (Nombre.length <= 5 || Nombre.length === 25) {
       return NextResponse.json(
         {
           message: "El nombre debe tener entre 5 y 25 caracteres",

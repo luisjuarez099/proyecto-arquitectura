@@ -3,8 +3,8 @@ import Image from "next/image";
 import axios, { AxiosError } from "axios";
 import emailI from "../../public/mail.png";
 import phoneI from "../../public/phone.png";
-import { Resend } from 'resend';
-import {EmailTemplate} from "@/components/email-template";
+import { Resend } from "resend";
+import { EmailTemplate } from "@/components/email-template";
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
@@ -30,8 +30,25 @@ function Contacto() {
     setContN(valN);
     localStorage.setItem("Telefono", Telefono);
   }, [Telefono, Mensaje, Nombre]);
-  
-const handleSubmit = async (event: any) => {
+
+  const sendEmail = async (event: any) => {
+    // event.preventDefault();
+    try {
+      const dataEmail = await axios.post("/api/send", {
+        Nombre: Nombre,
+        Correo: Correo
+      });
+      if(dataEmail.request.status == 200){
+        setErrors(dataEmail.data.message);
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setErrors(error.response?.data.message);
+      }
+    }
+  };
+
+  const handleSubmit = async (event: any) => {
     try {
       event.preventDefault(); // Evita que se recargue la pagina
       console.log(Nombre + " " + Correo + " " + Telefono + " " + Mensaje);
@@ -174,21 +191,15 @@ const handleSubmit = async (event: any) => {
                     name="Mensaje"
                     required
                   ></textarea>
-                  <p className="text-gray-500 text-xs">{contM}/100 caracteres</p>
+                  <p className="text-gray-500 text-xs">
+                    {contM}/100 caracteres
+                  </p>
                 </div>
                 {/* Boton de enviar */}
                 <button
-                 className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  onClick={async () => {
-                   const res  =  await fetch('/api/send/', {
-                    method: "POST",
-
-                   })
-                    const data = await res.json()
-                    console.log(data)
-                  }}
-                 >
-
+                  className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+                  onClick={sendEmail}
+                >
                   Enviar
                 </button>
               </form>
