@@ -58,8 +58,8 @@ export default function Shocks() {
           const uniqueModelos = modelosU.filter((value: any, index: any) => {
             return modelosU.indexOf(value) === index;
           }); //filtramos los modelos que no se repitan
-          console.log("modelos unicos");
-          console.log(modelosU);
+          // console.log("modelos unicos");
+          // console.log(modelosU);
           //********************************** */
           const fechaFin = data.items
             .filter((marca: any) => marca.Marca === marcaSelect)
@@ -97,8 +97,8 @@ export default function Shocks() {
           console.log(error);
         }
 
-        console.log("datos filtrados");
-        console.log(datas);
+        // console.log("datos filtrados");
+        // console.log(datas);
       });
   };
 
@@ -240,8 +240,14 @@ export default function Shocks() {
                           TI: item.TI,
                         };
                         const carritoTemp = JSON.parse(carritos);
-                        console.log(carritoTemp);
                         const nuevoCarrito = [...carritoTemp, carritoNew];
+
+                        // console.log("carrito temporal");
+                        // console.log(carritoTemp);
+                        // console.log("nuevo carrito")
+                        // console.log(nuevoCarrito);
+
+
                         setCarrito(nuevoCarrito);
                         localStorage.setItem("carrito",JSON.stringify(nuevoCarrito));
                       }}
