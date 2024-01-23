@@ -3,7 +3,7 @@ import clientPromise from "@/lib/mongodb";
 import { set } from "mongoose";
 import { NextResponse } from "next/server";
 import { useEffect, useState } from "react";
-import {Tooltip} from "@nextui-org/react";
+import { Tooltip } from "@nextui-org/react";
 export default function Shocks() {
   const [shocks, setShocks] = useState<any>();
   const [marcaSelect, setMarcaSelect] = useState<any>();
@@ -18,8 +18,9 @@ export default function Shocks() {
   const [Umarcas, setUmarcas] = useState<[]>([]); //marcas unicas
   const [Umodelos, setUModelos] = useState<[]>([]); //modelos unicos
   const [Ufechas, setUFechas] = useState<[]>([]); //modelos unicos
+  const [carrito, setCarrito] = useState<any>([]);
   //time out para la alerta de que no hay informacion****************
-  let stock = 0
+  let stock = 0;
   let mess = "Porfavor selecciona un modelo o una marca";
   useEffect(() => {
     const time = setTimeout(() => {
@@ -28,6 +29,8 @@ export default function Shocks() {
     }, 1000);
     return () => clearTimeout(time);
   }, [countInTimeout]);
+  //**************************** agregar al carrito usando local storage */
+
   //**************************************************************** */
   useEffect(() => {
     const getTodos = async () => {
@@ -100,6 +103,30 @@ export default function Shocks() {
   };
 
   //*** ********************** */
+  function compareCarrito(item:any, itemNew:any){
+    //tomamos los dos valores
+    const entrie1 = Object.entries(item);
+    const entrie2 = Object.entries(itemNew);
+    //hacemos la comparacion de largo del arreglo
+    if(entrie1.length !== entrie2.length){
+      console.log("diferentes");
+      return false;
+    }
+    //recorremos el arreglo para comparar los valores y llaves
+    for (let i = 0; i < entrie1.length; ++i) {
+      // Keys
+      if (entrie1[i][0] !== entrie2[i][0]) {
+        return false;
+      }
+      // Values
+      if (entrie1[i][1] !== entrie2[i][1]) {
+        return false;
+      }
+    }
+    console.log("iguales");
+    return true;
+  }
+
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Articulos</h1>
@@ -160,7 +187,7 @@ export default function Shocks() {
       </div>
       {/* mostrar datos */}
 
-          {err}
+      {err}
       <div className="flex justify-center items-center">
         <div className="mt-12 shadow-sm border rounded-lg ">
           <table className="w-full text-sm text-left">
@@ -177,9 +204,7 @@ export default function Shocks() {
                 <th className="py-3 px-6">DI</th>
                 <th className="py-3 px-6">TD</th>
                 <th className="py-3 px-6">TI</th>
-                <th className="py-3 px-6">Cant.</th>
                 <th className="py-3 px-6">Accion</th>
-                <th className="py-3 px-6">Stock</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
@@ -189,27 +214,43 @@ export default function Shocks() {
                   <td className="px-6 py-4 whitespace-nowrap">{item.Modelo}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Inicio}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Fin}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.Caracteristica}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.Caracteristica}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.D}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.T}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.TD}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.TI}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.DD}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.DI}</td>
-                  <input className="p-2 text-sm border w-2/3" defaultValue={0} type="number" min="0" max="5" />
+                  <td className="px-6 py-4 whitespace-nowrap">{item.TD}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.TI}</td>
                   <td className="text-right px-6 whitespace-nowrap">
                     <button
                       key={idx}
+                      onClick={() => {
+                        const carritos = localStorage.getItem("carrito") || "[]";
+                        const carritoNew = {
+                          Marca: item.Marca,
+                          Modelo: item.Modelo,
+                          Inicio: item.Inicio,
+                          Fin: item.Fin,
+                          Caracteristica: item.Caracteristica,
+                          T: item.T,
+                          D: item.D,
+                          DD: item.DD,
+                          DI: item.DI,
+                          TD: item.TD,
+                          TI: item.TI,
+                        };
+                        const carritoTemp = JSON.parse(carritos);
+                        console.log(carritoTemp);
+                        const nuevoCarrito = [...carritoTemp, carritoNew];
+                        setCarrito(nuevoCarrito);
+                        localStorage.setItem("carrito",JSON.stringify(nuevoCarrito));
+                      }}
                       className="py-2 px-3 bg-blue-500 font-medium text-white hover:bg-blue-900 duration-150  rounded-lg"
                     >
                       Agregar
                     </button>
                   </td>
-                  <td className="text-right px-6 whitespace-nowrap">
-                    {stock !==1 ? <p className="text-green-600 bg-green-100 rounded-2xl">stock</p> : <p className="text-red-600 bg-green-50">no stock</p>} 
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>

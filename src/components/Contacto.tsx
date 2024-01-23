@@ -31,6 +31,7 @@ function Contacto() {
     localStorage.setItem("Telefono", Telefono);
   }, [Telefono, Mensaje, Nombre]);
 
+//envio de correo de contacto
   const sendEmail = async (event: any) => {
     // event.preventDefault();
     try {
@@ -38,9 +39,7 @@ function Contacto() {
         Nombre: Nombre,
         Correo: Correo
       });
-      if(dataEmail.request.status == 200){
-        setErrors(dataEmail.data.message);
-      }
+      console.log(dataEmail.request.status);
     } catch (error) {
       if (error instanceof AxiosError) {
         setErrors(error.response?.data.message);

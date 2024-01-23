@@ -9,16 +9,12 @@ export const EmailTemplate: React.FC<Readonly<EmailTemplateProps>> = ({
   Correo,
 }) => (
   <div>
-    <h1>Hola, {Nombre}!</h1>
+    <h1>Hola, {Nombre}.</h1>
+    <h3>{Correo}</h3>
     <p>
-      Gracias por contactarnos. Hemos recibido su mensaje y le responderemos lo
-      antes posible. Estaremos en contacto con {Correo}
-    </p>
-
-    <p>
-      Le escribo para agradecerle por su comentario sobre nuestros productos o
-      servicios. Apreciamos su tiempo y esfuerzo al compartir sus pensamientos
-      con nosotros. Lo leeremos detenidamente y tomaremos sus comentarios en consideración.
+      Agradecemos sinceramente su contacto.
+      <br>Hemos</br> recibido su mensaje y le
+      aseguramos que nuestro equipo responderá con prontitud.
     </p>
   </div>
 );
