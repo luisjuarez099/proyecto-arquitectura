@@ -1,8 +1,10 @@
 "use client";
 import clientPromise from "@/lib/mongodb";
 import { set } from "mongoose";
+import { signOut, useSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 import { useEffect, useState } from "react";
+
 import { Tooltip } from "@nextui-org/react";
 export default function Shocks() {
   const [shocks, setShocks] = useState<any>();
@@ -19,6 +21,7 @@ export default function Shocks() {
   const [Umodelos, setUModelos] = useState<[]>([]); //modelos unicos
   const [Ufechas, setUFechas] = useState<[]>([]); //modelos unicos
   const [carrito, setCarrito] = useState<any>([]);
+  const { data: session } = useSession(); //toma el valor de la sesion
   //time out para la alerta de que no hay informacion****************
   let stock = 0;
   let mess = "Porfavor selecciona un modelo o una marca";
@@ -103,30 +106,6 @@ export default function Shocks() {
   };
 
   //*** ********************** */
-  function compareCarrito(item:any, itemNew:any){
-    //tomamos los dos valores
-    const entrie1 = Object.entries(item);
-    const entrie2 = Object.entries(itemNew);
-    //hacemos la comparacion de largo del arreglo
-    if(entrie1.length !== entrie2.length){
-      console.log("diferentes");
-      return false;
-    }
-    //recorremos el arreglo para comparar los valores y llaves
-    for (let i = 0; i < entrie1.length; ++i) {
-      // Keys
-      if (entrie1[i][0] !== entrie2[i][0]) {
-        return false;
-      }
-      // Values
-      if (entrie1[i][1] !== entrie2[i][1]) {
-        return false;
-      }
-    }
-    console.log("iguales");
-    return true;
-  }
-
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Articulos</h1>
@@ -214,7 +193,9 @@ export default function Shocks() {
                   <td className="px-6 py-4 whitespace-nowrap">{item.Modelo}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Inicio}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Fin}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.Caracteristica}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.Caracteristica}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.D}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.T}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.DD}</td>
@@ -225,7 +206,64 @@ export default function Shocks() {
                     <button
                       key={idx}
                       onClick={() => {
-                        const carritos = localStorage.getItem("carrito") || "[]";
+                       session ? (
+                          <div>
+                            <div
+                              id="toast-default"
+                              className="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+                              role="alert"
+                            >
+                              <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
+                                <svg
+                                  className="w-4 h-4"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 18 20"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M15.147 15.085a7.159 7.159 0 0 1-6.189 3.307A6.713 6.713 0 0 1 3.1 15.444c-2.679-4.513.287-8.737.888-9.548A4.373 4.373 0 0 0 5 1.608c1.287.953 6.445 3.218 5.537 10.5 1.5-1.122 2.706-3.01 2.853-6.14 1.433 1.049 3.993 5.395 1.757 9.117Z"
+                                  />
+                                </svg>
+                                <span className="sr-only">Fire icon</span>
+                              </div>
+                              <div className="ms-3 text-sm font-normal">
+                                Set yourself free.
+                              </div>
+                              <button
+                                type="button"
+                                className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                                data-dismiss-target="#toast-default"
+                                aria-label="Close"
+                              >
+                                <span className="sr-only">Close</span>
+                                <svg
+                                  className="w-3 h-3"
+                                  aria-hidden="true"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 14 14"
+                                >
+                                  <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div></div>
+                        );
+                        const carritos =
+                          localStorage.getItem("carrito") || "[]";
                         const carritoNew = {
                           Marca: item.Marca,
                           Modelo: item.Modelo,
@@ -242,21 +280,17 @@ export default function Shocks() {
                         const carritoTemp = JSON.parse(carritos);
                         const nuevoCarrito = [...carritoTemp, carritoNew];
 
-                        // console.log("carrito temporal");
-                        // console.log(carritoTemp);
-                        // console.log("nuevo carrito")
-                        // console.log(nuevoCarrito);
-
-
                         setCarrito(nuevoCarrito);
-                        localStorage.setItem("carrito",JSON.stringify(nuevoCarrito));
+                        localStorage.setItem(
+                          "carrito",
+                          JSON.stringify(nuevoCarrito)
+                        );
                       }}
                       className="py-2 px-3 bg-blue-500 font-medium text-white hover:bg-blue-900 duration-150  rounded-lg"
                     >
                       Agregar
                     </button>
                   </td>
-                  
                 </tr>
               ))}
             </tbody>

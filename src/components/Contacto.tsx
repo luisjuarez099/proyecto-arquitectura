@@ -20,6 +20,26 @@ function Contacto() {
   const [Telefono, setTelefono] = useState("");
   const [Mensaje, setMensaje] = useState("");
 
+  const sendMail = async  (e:any) =>{
+    e.preventDefault();
+    const res = await fetch("/api/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        Nombre: Nombre,
+        Correo: Correo      
+      }),
+        
+    });
+    if( res.status == 200) {
+      console.log("correo enviado");
+    }
+    else{
+      console.log("error al enviar correo");
+    }
+  }
   //creamos este estado para que se actualice cantidad de caracteres
   useEffect(() => {
     let valNum = Telefono.length;
@@ -32,20 +52,7 @@ function Contacto() {
   }, [Telefono, Mensaje, Nombre]);
 
 //envio de correo de contacto
-  const sendEmail = async (event: any) => {
-    // event.preventDefault();
-    try {
-      const dataEmail = await axios.post("/api/send", {
-        Nombre: Nombre,
-        Correo: Correo
-      });
-      console.log(dataEmail.request.status);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setErrors(error.response?.data.message);
-      }
-    }
-  };
+
 
   const handleSubmit = async (event: any) => {
     try {
@@ -57,13 +64,14 @@ function Contacto() {
         Telefono: Telefono,
         Mensaje: Mensaje,
       });
+      
       if (resData.request.status == 200) {
         setErrors(resData.data.message);
         /// Limpiamos los campos
-        // setNombre("");
-        // setCorreo("");
-        // setTelefono("");
-        // setMensaje("");
+        setNombre("");
+        setCorreo("");
+        setTelefono("");
+        setMensaje("");
         // router.refresh(); // Refrescamos la pagina
       }
     } catch (error) {
@@ -197,7 +205,18 @@ function Contacto() {
                 {/* Boton de enviar */}
                 <button
                   className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
-                  onClick={sendEmail}
+                  onClick={
+                    async ()=>{
+                      const res = await fetch("/api/send", {
+                        method: "POST",
+                        body: JSON.stringify({
+                          Nombre: Nombre,
+                        }),
+                      })
+                      const data = await res.json();
+                      console.log(data);
+                    }
+                  }
                 >
                   Enviar
                 </button>
