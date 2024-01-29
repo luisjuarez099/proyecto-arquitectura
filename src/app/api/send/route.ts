@@ -12,7 +12,7 @@ export async function POST(request: Request) {
         from: 'Acme <onboarding@resend.dev>',
         to: ['luisjuarezcc9@gmail.com'],
         subject: 'Hello world',
-        react: EmailTemplate({ Nombre: 'John' }) as string,
+        react: EmailTemplate({ Nombre: Nombre }) as string,
       });
 
     return Response.json(data);
