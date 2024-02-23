@@ -5,7 +5,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-function register() {
+function Register() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [show, setSHow] = useState(false);
@@ -136,4 +136,4 @@ function register() {
   );
 };
 
-export default register;
+export default Register;
