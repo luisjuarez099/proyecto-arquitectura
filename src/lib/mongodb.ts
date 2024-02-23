@@ -1,10 +1,10 @@
 import { MongoClient } from 'mongodb'
 
-if (!process.env.MONGODB_URI) {
+if (!process.env.MONGO_URI) {
   throw new Error('"Please define the MONGO_URI environment variable inside .env.local"');
 }
 
-const uri = process.env.MONGODB_URI
+const uri = process.env.MONGO_URI
 const options = {}
 
 let client
