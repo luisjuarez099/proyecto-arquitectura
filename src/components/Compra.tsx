@@ -1,10 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCarrito } from "@/utils/context/shops";
 
 const Compra = () => {
   const [carrito, setCarrito] = useState<any>([]);
-  const items = JSON.parse((localStorage.getItem("carrito") as string) || "[]");
+  
+  useEffect(()=>{
+    const items =  typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("carrito") || "[]") : [];
+    setCarrito(items);
+  }, []);
   
   return (
     <div>
@@ -28,7 +32,7 @@ const Compra = () => {
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {items.map((item: any, idx: number) => (
+              {carrito.map((item: any, idx: number) => (
                 <tr key={idx}>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Marca}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Modelo}</td>
@@ -46,7 +50,7 @@ const Compra = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <button
                       onClick={() => {
-                        const newCarrito = [...items];
+                        const newCarrito = [...carrito];
                         newCarrito.splice(idx, 1);
                         localStorage.setItem(
                           "carrito",
