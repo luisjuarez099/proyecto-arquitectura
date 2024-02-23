@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { set } from "mongoose";
-function login() {
+function Login() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [show, setSHow] = useState(false);
@@ -120,4 +120,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;
